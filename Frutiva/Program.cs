@@ -1,9 +1,12 @@
 using Frutiva.Areas.Identity;
 using Frutiva.Data;
 using Frutiva.Models;
+using Frutiva.Repositories;
+using Frutiva.Services;
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Radzen;
 
 var builder = Microsoft.AspNetCore.Builder.WebApplication.CreateBuilder(args);
 
@@ -17,6 +20,12 @@ builder.Services.AddServerSideBlazor();
 builder.Services
     .AddScoped<AuthenticationStateProvider, RevalidatingIdentityAuthenticationStateProvider<IdentityUser>>();
 builder.Services.AddSingleton<WeatherForecastService>();
+builder.Services.AddScoped<DialogService>();
+builder.Services.AddScoped<NotificationService>();
+builder.Services.AddScoped<TooltipService>();
+builder.Services.AddScoped<ContextMenuService>();
+builder.Services.AddScoped<IBowlRepository, BowlRepository>();
+builder.Services.AddScoped<IMenuService, MenuService>();
 
 var app = builder.Build();
 

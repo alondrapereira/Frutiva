@@ -1,46 +1,76 @@
+using Frutiva.Data;
 using Frutiva.Models;
 
 namespace Frutiva.Repositories;
 
 public class BowlRepository: IBowlRepository
 {
-    public void AddBowl()
+    private readonly FrutivaDbContext _context;
+
+    public BowlRepository(FrutivaDbContext ctx)
     {
-        throw new NotImplementedException();
+        _context = ctx;
+    }
+    public void AddBowl(Bowl bowl)
+    {
+        _context.Add(bowl);
+        _context.SaveChanges();
     }
 
-    public void DeleteBowlById()
+    public void DeleteBowlById(int id)
     {
-        throw new NotImplementedException();
+        var bowl = _context.Bowls.First(b => b.BowlId == id);
+        _context.Remove(bowl);
+        _context.SaveChanges();    
     }
 
-    public void DeleteBowlByName()
+    public void DeleteBowlByName(string name)
     {
-        throw new NotImplementedException();
+        var bowl = _context.Bowls.First(b => b.Name == name);
+        _context.Remove(bowl);
+        _context.SaveChanges();
     }
-
-    public void EditBowlById()
-    {
-        throw new NotImplementedException();
-    }
-
-    public void EditBowlByName()
-    {
-        throw new NotImplementedException();
-    }
-
+    
     public IEnumerable<Bowl> GetBowls()
     {
-        throw new NotImplementedException();
+        return _context.Bowls;
     }
 
-    public Bowl GetBowlById()
+    public Bowl GetBowlById(int id)
     {
-        throw new NotImplementedException();
+        return _context.Bowls.First(b => b.BowlId == id);
     }
 
-    public Bowl GetBowlByName()
+    public Bowl GetBowlByName(string name)
     {
-        throw new NotImplementedException();
+        return _context.Bowls.First(b => b.Name == name);
+    }
+    public IEnumerable<Base> GetBases()
+    {
+        return _context.Bases;
+    }
+
+    public Base GetBaseById(int id)
+    {
+        return _context.Bases.First(b => b.BaseId == id);
+    }
+
+    public Base GetBaseByFruit(string fruit)
+    {
+        return _context.Bases.First(b => b.Fruit == fruit);
+    }
+    public IEnumerable<Ingredient> GetIngredients()
+    {
+        return _context.Ingredients;
+    }
+
+    public Ingredient GetIngredientById(int id)
+    {
+        return _context.Ingredients.First(i => i.IngredientId == id);
+    }
+
+    public Ingredient GetIngredientByName(string name)
+    {
+        return _context.Ingredients.First(i => i.Name == name);
     }
 }

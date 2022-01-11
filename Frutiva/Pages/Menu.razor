@@ -1,0 +1,57 @@
+@page "/menu"
+@using Frutiva.Services
+
+<PageTitle>Menu</PageTitle>
+
+@inject IMenuService _menuService
+
+<h1>Menu</h1>
+
+<p></p>
+
+@if (bowls == null)
+{
+    <p>
+        <em>Loading...</em>
+    </p>
+}
+else
+{
+    <table class="table">
+        <thead>
+        <tr>
+            <th>Name</th>
+            <th>Base Fruit</th>
+            <th>Ingredients</th>
+            <th>Price</th>
+        </tr>
+        </thead>
+        <tbody>
+        @foreach (var bowl in bowls)
+        {
+            <tr>
+                <td>@bowl.Name</td>
+                <td>@bowl.Base</td>
+                @{
+                    var bowlIngredients = String.Join(",", bowl.Ingredients);
+                    <td>@bowlIngredients</td>
+                }
+                <td>$@bowl.Price</td>
+            </tr>
+        }
+        </tbody>
+    </table>
+}
+
+@code {
+    private Bowl[]? bowls;
+    private Base[]? bases;
+    private Ingredient[]? ingredients;
+
+    protected override async Task OnInitializedAsync()
+    {
+        bowls = await _menuService.GetBowls();
+        bases = await _menuService.GetBases();
+        ingredients = await _menuService.GetIngredients();
+    }
+}
